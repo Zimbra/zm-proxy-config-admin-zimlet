@@ -103,6 +103,7 @@ ZaProxyConfig.A_zimbraReverseProxyXmppBoshPort = "zimbraReverseProxyXmppBoshPort
 ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL = "zimbraReverseProxyXmppBoshRemoteHttpBindURL";
 ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL = "zimbraReverseProxyXmppBoshLocalHttpBindURL";
 ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL = "zimbraReverseProxyXmppBoshSSL";
+ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout = "zimbraReverseProxyXmppBoshTimeout";
 
 // other
 ZaProxyConfig.A_zimbraServiceEnabled = "zimbraServiceEnabled";
@@ -175,7 +176,8 @@ if (ZaGlobalConfig && ZaGlobalConfig.myXModel) {
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL, type: _STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL},
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL, type: _STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL},
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled, choices: ZaModel.BOOLEAN_CHOICES},
-        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, choices: ZaModel.BOOLEAN_CHOICES}
+        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, choices: ZaModel.BOOLEAN_CHOICES},
+        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type: _STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout}
     );
 }
 
@@ -212,7 +214,8 @@ if (ZaServer && ZaServer.myXModel) {
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL, type: _COS_STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL},
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL, type: _COS_STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL},
         {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled, choices: ZaModel.BOOLEAN_CHOICES},
-        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, choices: ZaModel.BOOLEAN_CHOICES}
+        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL, choices: ZaModel.BOOLEAN_CHOICES},
+        {id: ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type: _COS_STRING_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout}
     );
 }
 
@@ -424,7 +427,8 @@ ZaProxyConfig.PROXY_CONFIG_CHAT_PROXY_ATTRS = [
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshHostname,
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshPort,
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled,
-    ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout,
 ];
 
 //ZaProxyConfig.A_zimbraReverseProxyAuthWaitInterval is global only attribute
@@ -639,7 +643,7 @@ ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
                          enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyMailEnabled]
                         }
                      ]
-                }, 
+                },
                 {type: _ZA_TOP_GROUPER_, numCols:2, colSizes: ["275px", "auto"],
                     label: com_zimbra_proxy_config.LBL_ProxyChatProxyConfig,
                     visibilityChecks:[[ZATopGrouper_XFormItem.isGroupVisible,
@@ -649,8 +653,14 @@ ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
                            ref: ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled,
                            trueValue: "TRUE", falseValue: "FALSE"
                           },
+                          {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_TEXTFIELD_,
+                              label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshTimeout,
+                              onChange:ZaServerXFormView.onFormFieldChanged,
+                           enableDisableChecks: [ZaProxyConfig.isChatProxyEnabled],
+                           enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled]
+                          },
                           {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshHostname, type:_TEXTFIELD_,
-                              label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshHostname, 
+                              label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshHostname,
                               onChange:ZaServerXFormView.onFormFieldChanged,
                            enableDisableChecks: [ZaProxyConfig.isChatProxyEnabled],
                            enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled]
@@ -948,6 +958,13 @@ ZaProxyConfig.myServerXFormModifier = function(xFormObject, entry) {
                                trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel:ZaMsg.NAD_ResetToGlobal,
                                colSpan: "3",  // the colSpan here and below are to fix the problem brought by 2 kinds of super control implementation.
                                onChange: ZaServerXFormView.onFormFieldChanged
+                              },
+                              {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_SUPER_TEXTFIELD_,
+                                  resetToSuperLabel:ZaMsg.NAD_ResetToGlobal, colSpan: "3",
+                                  label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshTimeout,
+                                  onChange:ZaServerXFormView.onFormFieldChanged,
+                                  enableDisableChecks: [ZaProxyConfig.isChatProxyEnabled],
+                                  enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled]
                               },
                               {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshHostname, type:_SUPER_TEXTFIELD_,
                                   resetToSuperLabel:ZaMsg.NAD_ResetToGlobal, colSpan: "3",
