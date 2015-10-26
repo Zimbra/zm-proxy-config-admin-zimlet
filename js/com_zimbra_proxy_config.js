@@ -428,7 +428,7 @@ ZaProxyConfig.PROXY_CONFIG_CHAT_PROXY_ATTRS = [
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshPort,
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled,
     ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL,
-    ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout
 ];
 
 //ZaProxyConfig.A_zimbraReverseProxyAuthWaitInterval is global only attribute
