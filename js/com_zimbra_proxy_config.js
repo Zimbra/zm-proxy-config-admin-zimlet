@@ -393,6 +393,16 @@ ZaProxyConfig.PROXY_CONFIG_MAIL_PROXY_ATTRS = [
 	ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode
 ]
 
+ZaProxyConfig.PROXY_CONFIG_CHAT_PROXY_ATTRS = [
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshLocalHttpBindURL,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshRemoteHttpBindURL,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshHostname,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshPort,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshSSL,
+    ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout
+];
+
 //ZaProxyConfig.A_zimbraReverseProxyAuthWaitInterval is global only attribute
 ZaProxyConfig.GLOBAL_PROXY_CONFIG_MAIL_PROXY_ATTRS =
 	ZaProxyConfig.PROXY_CONFIG_MAIL_PROXY_ATTRS.push(
