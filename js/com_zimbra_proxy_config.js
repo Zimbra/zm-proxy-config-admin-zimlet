@@ -653,9 +653,10 @@ ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
                            ref: ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled,
                            trueValue: "TRUE", falseValue: "FALSE"
                           },
-                          {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_TEXTFIELD_,
+                          {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_LIFETIME_,
                               label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshTimeout,
                               onChange:ZaServerXFormView.onFormFieldChanged,
+                              labelLocation:_LEFT_,
                            enableDisableChecks: [ZaProxyConfig.isChatProxyEnabled],
                            enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled]
                           },
@@ -959,9 +960,10 @@ ZaProxyConfig.myServerXFormModifier = function(xFormObject, entry) {
                                colSpan: "3",  // the colSpan here and below are to fix the problem brought by 2 kinds of super control implementation.
                                onChange: ZaServerXFormView.onFormFieldChanged
                               },
-                              {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_SUPER_TEXTFIELD_,
+                              {ref:ZaProxyConfig.A_zimbraReverseProxyXmppBoshTimeout, type:_SUPER_LIFETIME_,
                                   resetToSuperLabel:ZaMsg.NAD_ResetToGlobal, colSpan: "3",
                                   label:com_zimbra_proxy_config.LBL_zimbraReverseProxyXmppBoshTimeout,
+                                  labelLocation:_LEFT_,
                                   onChange:ZaServerXFormView.onFormFieldChanged,
                                   enableDisableChecks: [ZaProxyConfig.isChatProxyEnabled],
                                   enableDisableChangeEventSources: [ZaProxyConfig.A_zimbraReverseProxyXmppBoshEnabled]
