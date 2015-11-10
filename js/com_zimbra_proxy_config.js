@@ -631,7 +631,7 @@ if (ZaSettings && ZaSettings.EnabledZimlet["com_zimbra_proxy_config"]) {
     /** global level proxy config modifer */
     ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
 
- // don't show anything about proxy if proxy is not installed at all
+        //don't show anything about proxy if proxy is not installed at all
         if (!ZaProxyConfig.isProxyInstalledInAnyServer()) {
             return;
         }
@@ -647,6 +647,13 @@ if (ZaSettings && ZaSettings.EnabledZimlet["com_zimbra_proxy_config"]) {
                 paddingStyle : "padding-left:15px;",
                 width : "98%",
                 items : [
+                        {
+                            type : _DWT_ALERT_,
+                            containerCssStyle : "padding-bottom:0px",
+                            style : DwtAlert.WARNING,
+                            iconVisible : true,
+                            content : ZaMsg.Alert_ProxyConfig
+                        },
                         {
                             type : _ZA_TOP_GROUPER_,
                             numCols : 2,
@@ -986,6 +993,13 @@ if (ZaSettings && ZaSettings.EnabledZimlet["com_zimbra_proxy_config"]) {
                 paddingStyle : "padding-left:15px;",
                 width : "98%",
                 items : [
+                        {
+                            type : _DWT_ALERT_,
+                            containerCssStyle : "padding-bottom:0px",
+                            style : DwtAlert.WARNING,
+                            iconVisible : true,
+                            content : ZaMsg.Alert_ProxyConfig
+                        },
                         {
                             type : _GROUP_,
                             numCols : 1,
