@@ -500,6 +500,13 @@ ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
             type: _ZATABCASE_, caseKey: proxyConfigCaseKey,
             colSizes: ["auto"], numCols: 1, paddingStyle: "padding-left:15px;", width: "98%",
             items: [
+                {
+                    type : _DWT_ALERT_,
+                    containerCssStyle : "padding-bottom:0px",
+                    style : DwtAlert.WARNING,
+                    iconVisible : true,
+                    content : ZaMsg.Alert_ProxyConfig
+                },
                 {type: _ZA_TOP_GROUPER_, numCols:2, colSizes: ["275px", "auto"],
                  label: com_zimbra_proxy_config.LBL_ProxyWebProxyConfig,
                  visibilityChecks:[[ZATopGrouper_XFormItem.isGroupVisible,
@@ -784,6 +791,13 @@ ZaProxyConfig.myServerXFormModifier = function(xFormObject, entry) {
             type: _ZATABCASE_, caseKey: proxyConfigCaseKey,
             colSizes: ["auto"], numCols: 1, paddingStyle: "padding-left:15px;", width: "98%",
             items: [
+                {
+                    type : _DWT_ALERT_,
+                    containerCssStyle : "padding-bottom:0px",
+                    style : DwtAlert.WARNING,
+                    iconVisible : true,
+                    content : ZaMsg.Alert_ProxyConfig
+                },
                 {type: _GROUP_, numCols: 1,
                  visibilityChecks: [ZaProxyConfig.isProxyInstalledAndEnabled],
                  visibilityChangeEventSources: [ZaServer.A_zimbraMailProxyServiceInstalled,
