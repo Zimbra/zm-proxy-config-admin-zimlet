@@ -228,11 +228,11 @@ ZaProxyConfig.initPopupMenu = function () {
         return;
 
     // here "this" is controller
-    this._popupOperations[ZaOperation.ENABLE_PROXY] = (new ZaOperation(ZaOperation.ENABLE_PROXY, "Enable Proxy", "Enable Proxy",
-                                           "Deploy", "Deploy", new AjxListener(this, ZaProxyConfig._enableProxyBtnListener)));
+    this._popupOperations[ZaOperation.ENABLE_PROXY] = (new ZaOperation(ZaOperation.ENABLE_PROXY, com_zimbra_proxy_config.LBL_EnableProxy, com_zimbra_proxy_config.LBL_EnableProxy,
+        com_zimbra_proxy_config.LBL_Deploy, com_zimbra_proxy_config.LBL_Deploy, new AjxListener(this, ZaProxyConfig._enableProxyBtnListener)));
 
-    this._popupOperations[ZaOperation.DISABLE_PROXY] = (new ZaOperation(ZaOperation.ENABLE_PROXY, "Disable Proxy", "Disable Proxy",
-            "Undeploy", "Undeploy", new AjxListener(this, ZaProxyConfig._disableProxyBtnListener)));
+    this._popupOperations[ZaOperation.DISABLE_PROXY] = (new ZaOperation(ZaOperation.ENABLE_PROXY, com_zimbra_proxy_config.LBL_DisableProxy, com_zimbra_proxy_config.LBL_DisableProxy,
+        com_zimbra_proxy_config.LBL_Undeploy, com_zimbra_proxy_config.LBL_Undeploy, new AjxListener(this, ZaProxyConfig._disableProxyBtnListener)));
 }
 
 if(ZaController.initPopupMenuMethods["ZaServerController"]) {
