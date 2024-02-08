@@ -66,6 +66,7 @@ ZaEnableProxy.myXModel = {
 		{id: ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname, choices: ZaModel.BOOLEAN_CHOICES},
 		{id: ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled, choices: ZaModel.BOOLEAN_CHOICES},
 		{id: ZaProxyConfig.A_zimbraReverseProxyLogLevel, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyLogLevel, choices: ZaProxyConfig.PROXY_LOG_LEVEL_CHOICES},
+		{id: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, choices: ZaModel.BOOLEAN_CHOICES},
 
 		// utility
 		{id: ZaProxyConfig.A2_mbx_name_array, type: _LIST_, itemType: _STRING_},
@@ -109,6 +110,7 @@ ZaEnableProxy.init = function () {
 	this.attrs[ZaProxyConfig.A_zimbraReverseProxyLogLevel] = "info";
 	this.attrs[ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname] = "TRUE";
 	this.attrs[ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled] = "TRUE";
+	this.attrs[ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled] = "TRUE";
 	
 	this[ZaProxyConfig.A2_all_mailbox_as_upstream] = "TRUE";
 	this[ZaProxyConfig.A2_all_mailbox_as_lookuptarget] = "TRUE";
@@ -400,6 +402,7 @@ ZaEnableProxyWizard.prototype.applyProxyConfig = function() {
 	ZaEnableProxyWizard.setAttr(proxyDoc, ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled, instance.attrs[ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled]);
 	ZaEnableProxyWizard.setAttr(proxyDoc, ZaProxyConfig.A_zimbraReverseProxyLogLevel, instance.attrs[ZaProxyConfig.A_zimbraReverseProxyLogLevel]);
 	ZaEnableProxyWizard.setAttr(proxyDoc, ZaProxyConfig.A_zimbraReverseProxySSLToUpstreamEnabled, instance.attrs[ZaProxyConfig.A_zimbraReverseProxySSLToUpstreamEnabled]);
+	ZaEnableProxyWizard.setAttr(proxyDoc, ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, instance.attrs[ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled]);
 	
 	// apply upstream settings
 	if (instance[ZaProxyConfig.A2_all_mailbox_as_upstream]) {
@@ -782,6 +785,10 @@ ZaEnableProxyWizard.myXFormModifier = function(xFormObject) {
 			 ref: ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled,
 			 labelCssStyle: "text-align: right",
 			 trueValue: "FALSE", falseValue: "TRUE" // the true and false value are meant to be reversed
+			},
+			{type: _CHECKBOX_, label: com_zimbra_proxy_config.LBL_ProxyStrictServerNameEnabled,
+			 ref: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled,
+			 trueValue: "TRUE", falseValue: "FALSE",labelCssStyle: "text-align: right"
 			}
 		  ]
 		},
