@@ -42,7 +42,7 @@ references:
 
               ant package-zimlet
 
-              ZIP_PATH="build/zimlet/com_zimbra_proxy_config.xml"
+              ZIP_PATH="build/zimlet/com_zimbra_proxy_config.zip"
 
               if [ ! -f "$ZIP_PATH" ]; then
                 echo "ERROR: expected zip not found at $ZIP_PATH"
