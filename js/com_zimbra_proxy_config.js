@@ -62,6 +62,7 @@ ZaProxyConfig.A_zimbraReverseProxyAdminIPAddress = "zimbraReverseProxyAdminIPAdd
 ZaProxyConfig.A_zimbraReverseProxyLogLevel = "zimbraReverseProxyLogLevel";
 ZaProxyConfig.A_zimbraReverseProxyUpstreamServers = "zimbraReverseProxyUpstreamServers";
 ZaProxyConfig.A_zimbraReverseProxyAvailableLookupTargets = "zimbraReverseProxyAvailableLookupTargets";
+ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled = "zimbraReverseProxyStrictServerNameEnabled";
 
 // Web Proxy Configurations
 ZaProxyConfig.A_zimbraReverseProxyHttpEnabled = "zimbraReverseProxyHttpEnabled";
@@ -163,7 +164,8 @@ if (ZaGlobalConfig && ZaGlobalConfig.myXModel) {
         {id: ZaProxyConfig.A_zimbraImapSSLProxyBindPort, type: _PORT_, ref: "attrs/" + ZaProxyConfig.A_zimbraImapSSLProxyBindPort},
         {id: ZaProxyConfig.A_zimbraPop3SSLProxyBindPort, type: _PORT_, ref: "attrs/" + ZaProxyConfig.A_zimbraPop3SSLProxyBindPort},
         {id: ZaProxyConfig.A_zimbraReverseProxyImapStartTlsMode, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyImapStartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES},
-        {id: ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES}
+        {id: ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES},
+        {id: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, type: _ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, choices: ZaModel.BOOLEAN_CHOICES}
     );
 }
 
@@ -194,7 +196,8 @@ if (ZaServer && ZaServer.myXModel) {
         {id: ZaProxyConfig.A_zimbraImapSSLProxyBindPort, type: _COS_PORT_, ref: "attrs/" + ZaProxyConfig.A_zimbraImapSSLProxyBindPort},
         {id: ZaProxyConfig.A_zimbraPop3SSLProxyBindPort, type: _COS_PORT_, ref: "attrs/" + ZaProxyConfig.A_zimbraPop3SSLProxyBindPort},
         {id: ZaProxyConfig.A_zimbraReverseProxyImapStartTlsMode, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyImapStartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES},
-        {id: ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES}
+        {id: ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyPop3StartTlsMode, choices: ZaProxyConfig.STARTTLS_MODE_CHOICES},
+        {id: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, type: _COS_ENUM_, ref: "attrs/" + ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, choices: ZaModel.BOOLEAN_CHOICES}
     );
 }
 
@@ -362,7 +365,8 @@ ZaProxyConfig.PROXY_CONFIG_GENERAL_ATTRS = [
     ZaProxyConfig.A_zimbraReverseProxyWorkerConnections,
     ZaProxyConfig.A_zimbraReverseProxySSLToUpstreamEnabled,
     ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled,
-    ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname
+    ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname,
+    ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled
 ];
 
 // zimbraReverseProxyAdminIPAddress is global only attributes
@@ -445,7 +449,8 @@ ZaProxyConfig.ENABLE_PROXY_ATTRS = [
         ZaProxyConfig.A_zimbraReverseProxyGenConfigPerVirtualHostname,
         ZaProxyConfig.A_zimbraReverseProxyLookupTarget,
         ZaProxyConfig.A_zimbraReverseProxyUpstreamServers,
-        ZaProxyConfig.A_zimbraReverseProxyAvailableLookupTargets
+        ZaProxyConfig.A_zimbraReverseProxyAvailableLookupTargets,
+        ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled
 ];
 
 ZaProxyConfig.ENABLE_PROXY_RIGHTS = [
@@ -635,6 +640,10 @@ ZaProxyConfig.myGlobalXFormModifier = function(xFormObject, entry) {
                     },
                     {type: _CHECKBOX_, label: com_zimbra_proxy_config.LBL_ProxyAllowServerResolveRoute,
                      ref: ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled,
+                     trueValue: "TRUE", falseValue: "FALSE"
+                    },
+                    {type: _CHECKBOX_, label: com_zimbra_proxy_config.LBL_ProxyStrictServerNameEnabled,
+                     ref: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled,
                      trueValue: "TRUE", falseValue: "FALSE"
                     },
                     {type: _DWT_ALERT_, style: DwtAlert.INFO, iconVisible: true, colSpan: "*",
@@ -906,6 +915,11 @@ ZaProxyConfig.myServerXFormModifier = function(xFormObject, entry) {
                          ref: ZaProxyConfig.A_zimbraReverseProxyDnsLookupInServerEnabled,
                          trueValue: "TRUE", falseValue: "FALSE",
                          resetToSuperLabel:ZaMsg.NAD_ResetToGlobal,
+                         onChange: ZaServerXFormView.onFormFieldChanged
+                        },
+                        {type: _SUPER_CHECKBOX_, label: com_zimbra_proxy_config.LBL_ProxyStrictServerNameEnabled,
+                         ref: ZaProxyConfig.A_zimbraReverseProxyStrictServerNameEnabled, colSpan: "3",
+                         trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel:ZaMsg.NAD_ResetToGlobal,
                          onChange: ZaServerXFormView.onFormFieldChanged
                         },
                         {type: _DWT_ALERT_, style: DwtAlert.INFO, iconVisible: true, colSpan: "3",
